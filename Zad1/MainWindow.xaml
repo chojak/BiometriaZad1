@@ -14,5 +14,9 @@
         <Button Content="Choose file" Height="20" Width="80" x:Name="ChooseFile" Canvas.Left="612" Canvas.Top="549" Click="ChooseFile_Click"/>
         <Button x:Name="SaveFile" Content="Save" Height="20" Width="80" Canvas.Left="697" Canvas.Top="549" Click="SaveFile_Click"/>
         <Slider x:Name="Slider" Minimum="0" Maximum="255" Canvas.Left="23" Canvas.Top="526" Width="754" ValueChanged="Slider_ValueChanged"></Slider>
+        <RadioButton GroupName="color" Canvas.Left="180" Canvas.Top="552">Red</RadioButton>
+        <RadioButton GroupName="color" Canvas.Left="230" Canvas.Top="552">Green</RadioButton>
+        <RadioButton GroupName="color" Canvas.Left="290" Canvas.Top="552">Blue</RadioButton>
+        <RadioButton GroupName="color" Canvas.Left="340" Canvas.Top="552" IsChecked="True">Mean</RadioButton>
     </Canvas>
 </Window>

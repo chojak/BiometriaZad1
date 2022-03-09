@@ -21,11 +21,21 @@ namespace Zad1
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+   
+    public enum ActualMode
+    {
+        Blue,
+        Red,
+        Green,
+        Mean
+    }
+
     public partial class MainWindow : Window
     {
         public string Source = "";
         public Bitmap ImageBitmap;
         public Bitmap HistogramBitmap;
+        public ActualMode ActualMode = ActualMode.Mean;
 
         // https://stackoverflow.com/questions/26260654/wpf-converting-bitmap-to-imagesource
         private BitmapImage BitmapToImageSource(System.Drawing.Bitmap bitmap)
@@ -52,10 +62,16 @@ namespace Zad1
             //Histogram.MaxHeight = 500;
             //Histogram.MaxWidth = 800;
 
+            foreach (var x in Canvas.Children)
+            {
+                if (x.GetType() == typeof(RadioButton))
+                {
+                    (x as RadioButton).Checked += RadioButton_Checked;
+                }
 
-            ThresholdLevelTextBox.Text = "Threshold level: 0";
+                ThresholdLevelTextBox.Text = "Threshold level: 0";
+            }
         }
-
         private void SwapButton_Click(object sender, RoutedEventArgs e)
         {
             Image.Visibility = Image.Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
@@ -68,7 +84,7 @@ namespace Zad1
         {
             if (Source != "")
             {
-                ImageBitmap = Algorithm.BinaryThreshold(new Bitmap(Source), (byte)Slider.Value);
+                ImageBitmap = Algorithm.BinaryThreshold(new Bitmap(Source), (byte)Slider.Value, ActualMode);
                 Image.Source = BitmapToImageSource(ImageBitmap);
                 ThresholdLevelTextBox.Text = "Threshold level: " + Math.Round(Slider.Value, 0);
             }
@@ -83,7 +99,7 @@ namespace Zad1
                 Source = openFileDialog.FileName;
                 ImageBitmap = new Bitmap(Source);
                 Image.Source = BitmapToImageSource(ImageBitmap);
-                HistogramBitmap = Algorithm.Histogram(new Bitmap(Source));
+                HistogramBitmap = Algorithm.Histogram(new Bitmap(Source), ActualMode);
                 Histogram.Source = BitmapToImageSource(HistogramBitmap);
             }
 
@@ -115,6 +131,29 @@ namespace Zad1
                     HistogramBitmap.Save(saveFileDialog.FileName);
                 }
             }
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            switch((sender as RadioButton).Content)
+            {
+                case "Red":
+                    ActualMode = ActualMode.Red;
+                    break;
+                case "Green":
+                    ActualMode = ActualMode.Green;
+                    break;
+                case "Blue":
+                    ActualMode = ActualMode.Blue;
+                    break;
+                default:
+                    ActualMode = ActualMode.Mean;
+                    break;
+            }
+
+            Image.Source = BitmapToImageSource(ImageBitmap);
+            HistogramBitmap = Algorithm.Histogram(new Bitmap(Source), ActualMode);
+            Histogram.Source = BitmapToImageSource(HistogramBitmap);
         }
     }
 }
