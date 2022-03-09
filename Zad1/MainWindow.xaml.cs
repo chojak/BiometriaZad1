@@ -29,7 +29,6 @@ namespace Zad1
         Green,
         Mean
     }
-
     public partial class MainWindow : Window
     {
         public string Source = "";
@@ -59,9 +58,6 @@ namespace Zad1
             Image.MaxHeight = 500;
             Image.MaxWidth = 800;
 
-            //Histogram.MaxHeight = 500;
-            //Histogram.MaxWidth = 800;
-
             foreach (var x in Canvas.Children)
             {
                 if (x.GetType() == typeof(RadioButton))
@@ -79,7 +75,6 @@ namespace Zad1
 
             SwapButton.Content = SwapButton.Content == "BinaryThreshold" ? "Histogram" : "BinaryThreshold";
         }
-
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (Source != "")
@@ -89,7 +84,6 @@ namespace Zad1
                 ThresholdLevelTextBox.Text = "Threshold level: " + Math.Round(Slider.Value, 0);
             }
         }
-
         private void ChooseFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -102,9 +96,7 @@ namespace Zad1
                 HistogramBitmap = Algorithm.Histogram(new Bitmap(Source), ActualMode);
                 Histogram.Source = BitmapToImageSource(HistogramBitmap);
             }
-
         }
-
         private void SaveFile_Click(object sender, RoutedEventArgs e)
         {
             
@@ -124,7 +116,6 @@ namespace Zad1
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "JPeg Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif";
                 saveFileDialog.Title = "Save a histogram";
-                saveFileDialog.ShowDialog();
 
                 if (saveFileDialog.ShowDialog() == true)
                 {
@@ -132,7 +123,6 @@ namespace Zad1
                 }
             }
         }
-
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             switch((sender as RadioButton).Content)
@@ -151,9 +141,12 @@ namespace Zad1
                     break;
             }
 
-            Image.Source = BitmapToImageSource(ImageBitmap);
-            HistogramBitmap = Algorithm.Histogram(new Bitmap(Source), ActualMode);
-            Histogram.Source = BitmapToImageSource(HistogramBitmap);
+            if(ImageBitmap != null && HistogramBitmap != null)
+            {
+                Image.Source = BitmapToImageSource(ImageBitmap);
+                HistogramBitmap = Algorithm.Histogram(new Bitmap(Source), ActualMode);
+                Histogram.Source = BitmapToImageSource(HistogramBitmap);
+            }
         }
     }
 }

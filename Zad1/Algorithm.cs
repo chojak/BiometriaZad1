@@ -91,13 +91,13 @@ namespace Zad1
                 switch (actualMode)
                 {
                     case ActualMode.Blue:
-                        bmpData[i] = r > threshold ? byte.MaxValue : byte.MinValue;
+                        bmpData[i] = b > threshold ? byte.MaxValue : byte.MinValue;
                         break;
                     case ActualMode.Red:
-                        bmpData[i + 2] = g > threshold ? byte.MaxValue : byte.MinValue;
+                        bmpData[i + 2] = r > threshold ? byte.MaxValue : byte.MinValue;
                         break;
                     case ActualMode.Green:
-                        bmpData[i + 1] = b > threshold ? byte.MaxValue : byte.MinValue;
+                        bmpData[i + 1] = g > threshold ? byte.MaxValue : byte.MinValue;
                         break;
                     default:
                         byte mean = (byte)((r + g + b) / 3);
